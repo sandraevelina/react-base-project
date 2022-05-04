@@ -1,13 +1,115 @@
+:root {
+  --list-item-width: 700px;
+  --backgroud: #bdc2b5;
+  --list-item-background: #f9f6f7;
+  --button-background: #52625d;
+  --button-hover-background: #414e4a;
+  --text-color: #31352e;
+  --subtitle-color: #414644;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, sBlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  background-color: var(--backgroud);
+  color: var(--text-color);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.container {
+  margin: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 724px) {
+  .container {
+    margin: 12px 0;
+  }
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--list-item-width);
+  border: 1px solid var(--backgroud);
+  background-color: var(--list-item-background);
+  padding: 12px;
+}
+
+.list-item.clickable:hover {
+  cursor: pointer;
+}
+
+.list-item-title {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.list-item.clickable:hover .list-item-title {
+  text-decoration: underline;
+}
+
+.list-item-sub-title {
+  color: var(--subtitle-color);
+  margin-bottom: 4px;
+}
+
+.list-item-description {
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.list-item-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.list-item-footer-tag-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-right: 8px;
+}
+
+@media only screen and (max-width: 600px) {
+  .list-item-description {
+    height: 150px;
+  }
+}
+
+button {
+  background-color: var(--button-background);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 12px 32px;
+  font-size: 1rem;
+  box-shadow: 2px 8px 12px rgb(0 0 0 / 10%);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: var(--button-hover-background);
+}
+
+.tag {
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  border-radius: 5px;
+  margin: 0 4px 4px 0;
+  background-color: var(--backgroud);
 }
