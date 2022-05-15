@@ -1,69 +1,74 @@
-import React from 'react';
-import './App.css';
-import Button from './components/Button/Button';
-import InfoBox from './components/InfoBox/InfoBox';
+import React from "react";
+import "./App.css";
+import Button from "./components/Button/Button";
+import InfoBox from "./components/InfoBox/InfoBox";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
-      blueCount: 0,
-      redCount: 0,
-    }
+      data: [],
+    };
   }
 
-  componentDidMount() {
-    console.warn('I will run when page is loaded');
+  async componentDidMount() {
+    let url = await fetch(
+      "https://feed.jobylon.com/feeds/7d7e6fd12c614aa5af3624b06f7a74b8/?format=json"
+    );
+    let response = await url.json();
+    this.formatData(response);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.type !== prevState.type) {
-      console.warn('The text has been updated!')
+      console.warn("The text has been updated!");
     }
   }
 
-  componentWillUnmount() {
-   console.warn('I will run when component is removed from the DOM') 
-  }
+  formatData(response) {
+    let formatedData = response.map((item) => {
+      const { id, title, descr, employment_type, experience } = item;
 
-  setText(type) {
-    let redCount = this.state.redCount;
-    let blueCount = this.state.blueCount;
-    
-    if(type === 'blue') {
-      blueCount = blueCount + 1; 
-    }
-    if(type === 'red') {
-      redCount = redCount + 1;
-    }
-    this.setState({
-      type: type,
-      blueCount: blueCount,
-      redCount: redCount,
+      return {
+        id,
+        title,
+        description: descr,
+        type: employment_type,
+        location: item.locations[0].location.text,
+        experience,
+        url: item.urls.ad,
+        company: item.company.name
+      };
     });
-  }
 
-  getInfobox() {
-    if (this.state.type === 'blue') {
-      return <InfoBox text='I am blue' count={this.state.blueCount} />
-    }
-    if (this.state.type === 'red') {
-      return <InfoBox text='I am red' count={this.state.redCount} />
-    }
-    return '';
+    this.setState({
+      data: formatedData,
+    });
   }
 
   render() {
     return (
-    <div className="App">
-      <div className="button-container">
-        <Button label="Click me" text="blue" handleClick={(text) => this.setText(text)}/>
-        <Button label="No, click me" text="red" handleClick={(text) => this.setText(text)}/>
+      <div className="App">
+        <div className="job-container">
+          {this.state.data.map((item) => {
+            return (
+              <InfoBox
+                name={item.title}
+                key={item.id}
+                description={item.description}
+                type={item.type}
+                location={item.location}
+                experience={item.experience}
+                url={item.url}
+                company={item.company}
+              />
+            );
+          })}
+        </div>
       </div>
-      {this.getInfobox()}
-    </div>
-  );}
+    );
+  }
 }
 
 export default App;
+

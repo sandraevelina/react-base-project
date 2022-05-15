@@ -1,28 +1,34 @@
-import React from 'react';
-import './infoBox.css';
+import React from "react";
+import Button from "../Button/Button";
+import Tag from "../Tag/Tag";
 
 class InfoBox extends React.Component {
-  componentDidMount() {
-    console.warn('I will run when I am added to DOM');
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.count !== prevProps.count) {
-      console.warn('The count has been updated!')
-    }
-  }
-
-  componentWillUnmount() {
-   console.warn('I will run when component is removed from the DOM') 
-  }
-
   render() {
     return (
-    <div className="info-box">
-      <div className="info-box-text">{this.props.text}</div>
-      <div className="info-box-count">{this.props.count}</div>
-    </div>
-  );}
+      <div className="list-item">
+        <div className="list-item-title">{this.props.name}</div>
+        <div className="list-item-sub-title">{this.props.company}</div>
+        <div
+          className="list-item-description"
+          dangerouslySetInnerHTML={{
+            __html: this.props.description,
+          }}
+        ></div>
+
+        <div className="list-item-footer">
+          <div className="list-item-footer-tag-container">
+            <Tag tagName={this.props.type} />
+            <Tag tagName={this.props.location} />
+            <Tag tagName={this.props.experience} />
+          </div>
+          <Button
+            label="Read more"
+            handleClick={() => window.open(this.props.url, "_blank")}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default InfoBox;
